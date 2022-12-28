@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import capitalize from "lodash/capitalize";
 import { color, space, textFont } from "@styles/theme";
-import { Badge, BadgeColor, BadgeSize } from "@features/ui";
+import { Badge, BadgeColor, BadgeSize, BadgeWord } from "@features/ui";
 import { ProjectLanguage } from "@api/projects.types";
 import { IssueLevel } from "@api/issues.types";
 import type { Issue } from "@api/issues.types";
@@ -15,6 +15,12 @@ const levelColors = {
   [IssueLevel.info]: BadgeColor.success,
   [IssueLevel.warning]: BadgeColor.warning,
   [IssueLevel.error]: BadgeColor.error,
+};
+
+const levelNames = {
+  [IssueLevel.info]: BadgeWord.info,
+  [IssueLevel.warning]: BadgeWord.warning,
+  [IssueLevel.error]: BadgeWord.error,
 };
 
 const Row = styled.tr`
@@ -48,7 +54,7 @@ const ErrorType = styled.span`
 `;
 
 export function IssueRow({ projectLanguage, issue }: IssueRowProps) {
-  const { name, message, stack, level, numEvents, numUsers } = issue;
+  const { name, message, stack, level, numEvents } = issue;
   const firstLineOfStackTrace = stack.split("\n")[1];
 
   return (
@@ -68,11 +74,11 @@ export function IssueRow({ projectLanguage, issue }: IssueRowProps) {
       </IssueCell>
       <Cell>
         <Badge color={levelColors[level]} size={BadgeSize.sm}>
-          {capitalize(level)}
+          {levelNames[level]}
         </Badge>
       </Cell>
       <Cell>{numEvents}</Cell>
-      <Cell>{numUsers}</Cell>
+      <Cell>{numEvents}</Cell>
     </Row>
   );
 }
