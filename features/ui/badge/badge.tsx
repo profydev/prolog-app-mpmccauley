@@ -11,18 +11,30 @@ export enum BadgeSize {
 export enum BadgeColor {
   primary = "primary",
   gray = "gray",
-  error = "error",
+  error = "critical",
   warning = "warning",
   success = "success",
+  info = "stable",
+}
+
+export enum BadgeWord {
+  info = "Stable",
+  warning = "Warning",
+  error = "Critical",
 }
 
 type BadgeProps = {
   children: React.ReactNode;
   size?: BadgeSize;
   color?: BadgeColor;
+  word?: BadgeWord;
 };
 
-const Container = styled.div<{ size: BadgeSize; color: BadgeColor }>`
+const Container = styled.div<{
+  size: BadgeSize;
+  color: BadgeColor;
+  word: BadgeWord;
+}>`
   width: fit-content;
   display: flex;
   align-items: center;
@@ -58,6 +70,21 @@ const Container = styled.div<{ size: BadgeSize; color: BadgeColor }>`
           background: ${color("gray", 100)};
           color: ${color("gray", 700)};
         `;
+      case BadgeColor.info:
+        return css`
+          background: ${color("success", 100)};
+          color: ${color("success", 700)};
+        `;
+      case BadgeColor.error:
+        return css`
+          background: ${color("error", 100)};
+          color: ${color("error", 700)};
+        `;
+      case BadgeColor.warning:
+        return css`
+          background: ${color("warning", 100)};
+          color: ${color("warning", 700)};
+        `;
       default:
         return css`
           background: ${color(props.color, 50)};
@@ -71,9 +98,10 @@ export function Badge({
   children,
   size = BadgeSize.md,
   color = BadgeColor.primary,
+  word = BadgeWord.info,
 }: BadgeProps) {
   return (
-    <Container size={size} color={color}>
+    <Container size={size} color={color} word={word}>
       {children}
     </Container>
   );
